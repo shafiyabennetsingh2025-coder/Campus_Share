@@ -1,9 +1,11 @@
+
+const API_URL = 'https://YOUR-BACKEND-NAME.onrender.com/api';
+
 export default async function api(path, { method = 'GET', body } = {}) {
   const t = localStorage.getItem('token');
-
   const isFormData = body instanceof FormData;
 
-  const r = await fetch('/api' + path, {
+  const r = await fetch(API_URL + path, {
     method,
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
@@ -18,10 +20,11 @@ export default async function api(path, { method = 'GET', body } = {}) {
 
   if (!r.ok) {
     if (r.status === 401 && t) {
-      localStorage.clear();
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
       location.reload();
     }
-    throw new Error(d.error || 'Request failed');
+    throw new Error(d.error || `Request failed (${r.status})`);
   }
 
   return d;
