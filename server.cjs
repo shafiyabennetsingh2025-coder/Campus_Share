@@ -3,7 +3,7 @@ const path = require('path');
 const upload = multer({ dest: 'uploads/' });
 require('dotenv').config();
 const express = require('express'), cors = require('cors'), bcrypt = require('bcryptjs'), jwt = require('jsonwebtoken');
-const db = require('./db');
+const db = require('./db.cjs');
 const app = express(); app.use(cors()); app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const DOMAIN = process.env.COLLEGE_EMAIL_DOMAIN || 'vitstudent.ac.in';
@@ -211,5 +211,5 @@ app.get('/api/admin/stats', auth('ADMIN'), wrap(async (req, res) => {
     (SELECT IFNULL(SUM(amount),0) FROM fines) total_fines, (SELECT COUNT(*) FROM tools WHERE status='MAINTENANCE') maintenance`);
   res.json(s);
 }));
-require('./extra')(app, db, auth, wrap);
+require('./extra.cjs')(app, db, auth, wrap);
 app.listen(process.env.PORT || 5000, () => console.log('API running'));
