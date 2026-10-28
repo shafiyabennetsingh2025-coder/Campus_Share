@@ -365,7 +365,7 @@ const pages = {
   ADMIN: { dashboard: ADashboard, students: AStudents, tools: ATools, requests: ARequests, reservations: AReservations, feedback: AFeedback, reports: AReports } };
 
 export default function App() {
-  const [role, setRole] = useState(localStorage.getItem('role')), [page, setPage] = useState('dashboard'), [open, setOpen] = useState(false), [msg, setMsg] = useState(null), [unread, setUnread] = useState(0);
+  const [role, setRole] = useState(   ['STUDENT', 'ADMIN'].includes(localStorage.getItem('role'))     ? localStorage.getItem('role')     : null ), [page, setPage] = useState('dashboard'), [open, setOpen] = useState(false), [msg, setMsg] = useState(null), [unread, setUnread] = useState(0);
   useEffect(() => { const h = e => { setMsg(e.detail); setTimeout(() => setMsg(null), 3500); }; window.addEventListener('toast', h); setToast((m, e) => h({ detail: { m, e } })); return () => window.removeEventListener('toast', h); }, []);
   useEffect(() => { if (role === 'STUDENT') api('/notifications').then(n => setUnread(n.filter(x => !x.is_read).length)).catch(() => {}); }, [role, page]);
   const Toast = msg && <div className={`fixed top-4 right-4 z-[60] rounded-xl px-4 py-3 text-sm shadow-xl ${msg.e ? 'bg-rose-600' : 'bg-emerald-600'}`}>{msg.m}</div>;
