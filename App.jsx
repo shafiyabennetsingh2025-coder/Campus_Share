@@ -370,7 +370,7 @@ export default function App() {
   useEffect(() => { if (role === 'STUDENT') api('/notifications').then(n => setUnread(n.filter(x => !x.is_read).length)).catch(() => {}); }, [role, page]);
   const Toast = msg && <div className={`fixed top-4 right-4 z-[60] rounded-xl px-4 py-3 text-sm shadow-xl ${msg.e ? 'bg-rose-600' : 'bg-emerald-600'}`}>{msg.m}</div>;
   if (!role) return <>{Toast}<Auth onDone={r => { setRole(r); setPage('dashboard'); }} /></>;
-  const Page = pages[role][page], items = nav[role];
+  const Page = pages[role]?.[page] || SDashboard, items = nav[role] || nav.STUDENT;
   const Side = <nav className="space-y-1">{items.map(([k, label, I]) => <button key={k} onClick={() => { setPage(k); setOpen(false); }} className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition ${page === k ? 'bg-indigo-500/20 text-indigo-200' : 'text-slate-300 hover:bg-white/5'}`}>
     <I size={16} />{label}{k === 'notifications' && unread > 0 && <span className="ml-auto bg-rose-500 text-[10px] rounded-full px-1.5">{unread}</span>}</button>)}
     <button onClick={() => { localStorage.clear(); setRole(null); }} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-400 hover:bg-white/5"><LogOut size={16} />Logout</button></nav>;
