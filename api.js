@@ -1,5 +1,5 @@
 
-const API_URL = 'https://YOUR-BACKEND-NAME.onrender.com/api';
+const API_URL = 'https://campus-share-backend-23ym.onrender.com/api';
 
 export default async function api(path, { method = 'GET', body } = {}) {
   const t = localStorage.getItem('token');
