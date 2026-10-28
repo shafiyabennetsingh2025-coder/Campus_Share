@@ -19,7 +19,7 @@ function Auth({ onDone }) {
       localStorage.setItem('token', r.token); localStorage.setItem('role', r.role); onDone(r.role); }
   } catch (er) { setToastMsg(er.message, 1); } };
   const setToastMsg = (m, e) => window.dispatchEvent(new CustomEvent('toast', { detail: { m, e } }));
-  return (<div className="min-h-screen grid place-items-center p-4"><form onSubmit={submit} className={card + ' w-full max-w-md space-y-3'}>
+  return (<div className="min-h-screen grid place-items-center p-4"><form onSubmit={submit} className={card + ' w-full max-w-3xl space-y-3'}>
     <div className="flex items-center gap-2 mb-2"><Package className="text-indigo-300" /><h1 className="text-xl font-semibold">Campus Share</h1></div>
     <p className="text-sm text-slate-400">Borrow, lend and reserve equipment with verified students on campus.</p>
     {!reg && <div className="grid grid-cols-2 gap-2">{['student', 'admin'].map(m => <button type="button" key={m} onClick={() => setMode(m)} className={mode === m ? pri : ghost}>{m[0].toUpperCase() + m.slice(1)}</button>)}</div>}
